@@ -10,6 +10,7 @@ services:
       - "8000:8000"
     depends_on:
       - backend-db
+      - backend-redis
 
   backend-worker:
     build: ./backend
@@ -20,6 +21,7 @@ services:
       - ./backend:/backend
     depends_on:
       - backend-db
+      - backend-redis
 
   backend-db:
     image: postgres:latest
@@ -27,6 +29,7 @@ services:
     ports:
       - "5433:5433"
     env_file: ".env.dev"
+    command: ["postgres", "-p", "5433"]
     volumes:
       - backend-db-volume:/var/lib/postgresql
 
